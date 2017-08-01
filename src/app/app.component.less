@@ -1,0 +1,85 @@
+.container {
+  padding: 24px;
+}
+
+h1 {
+  margin:    24px 0;
+  font-size: 100px;
+}
+
+.btn {
+  cursor:        pointer;
+  font-size:     40px;
+  line-height:   68px;
+  padding-left:  40px;
+  padding-right: 40px;
+
+  &.play {
+    background: #B9F6CA;
+    border-color: #00E676;
+  }
+
+  &.pause {
+    background: #FFE57F;
+    border-color: #FFC400;
+  }
+
+  &.reset {
+    background: #FF9E80;
+    border-color: #FF3D00;
+  }
+}
+
+.timer {
+  position:      relative;
+  line-height:   100px;
+  text-align:    right;
+  border:        1px solid #efefef;
+  border-radius: 2px;
+  margin:        40px 0;
+
+  &.total-timer {
+    //
+  }
+
+  &.interval-timer {
+    //
+  }
+
+  &-title {
+    position:       absolute;
+    right:          0;
+    bottom:         100%;
+    font-size:      12px;
+    line-height:    20px;
+    text-transform: uppercase;
+  }
+
+  &-text {
+    font-size:     56px;
+    font-weight:   500;
+    position:      relative;
+    padding-right: 24px;
+  }
+
+  &-color {
+    position:      absolute;
+    top:           0;
+    bottom:        0;
+    right:         0;
+    width:         100%;
+    border-radius: 2px;
+    background:    #B3E5FC;
+    transition:
+      width      1.0s ease-in,
+      background 0.5s ease-in;
+
+    &.near {
+      background: #FFE0B2;
+    }
+
+    &.imminent {
+      background: #ffcdd2;
+    }
+  }
+}

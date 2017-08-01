@@ -1,0 +1,56 @@
+<div class="container">
+  <button
+    *ngIf=" ! timerOn"
+    class="btn btn-default btn-lg play"
+    (click)="startTimer()">
+
+    <i class="fa fa-play"></i>
+  </button>
+
+  <button
+    *ngIf="timerOn"
+    class="btn btn-default btn-lg pause"
+    (click)="pauseTimer()">
+
+    <i class="fa fa-pause"></i>
+  </button>
+
+  <button
+    class="btn btn-default btn-lg reset pull-right"
+    (click)="resetTimer()">
+
+    Reset
+  </button>
+
+  <div class="timer total-timer">
+    <div class="timer-title">Total Time Remaining</div>
+    <div
+      class="timer-color"
+      [class.near]="totalRemaining.percent < 25"
+      [class.imminent]="totalRemaining.percent < 10"
+      [style.width]="totalRemaining.percent + '%'">
+      &nbsp;
+    </div>
+
+    <div class="timer-text">
+      {{totalRemaining.minutes}}:{{totalRemaining.seconds}}
+    </div>
+  </div>
+
+  <div class="timer interval-timer">
+    <div class="timer-title">Time Remaining in Interval</div>
+    <div
+      class="timer-color"
+      [class.near]="intervalRemaining.percent < 25"
+      [class.imminent]="intervalRemaining.percent < 10"
+      [style.width]="intervalRemaining.percent + '%'">
+      &nbsp;
+    </div>
+
+    <div class="timer-text">
+      {{intervalRemaining.minutes}}:{{intervalRemaining.seconds}}
+    </div>
+  </div>
+
+  <h1>{{activeInterval.message}}</h1>
+</div>
