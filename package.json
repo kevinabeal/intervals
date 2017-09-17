@@ -23,6 +23,7 @@
     "@angular/router": "^4.0.0",
     "@types/ramda": "^0.24.5",
     "core-js": "^2.4.1",
+    "nosleep.js": "^0.7.0",
     "ramda": "^0.24.1",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"

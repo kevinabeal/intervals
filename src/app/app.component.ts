@@ -2,7 +2,10 @@
 // IMPORTS ------------------------------------------------]
 ///////////////////////////////////////////////////////////]
 import { Component, Input, OnInit } from '@angular/core';
+import * as NoSleep from 'nosleep.js';
 // import * as R from 'ramda';
+
+const nosleep = new NoSleep();
 
 
 ///////////////////////////////////////////////////////////]
@@ -17,7 +20,6 @@ export class AppComponent implements OnInit {
   /////////////////////////////////////////////////////////]
   // PUBLIC PROPERTIES ------------------------------------]
   public totalTime         = 20 * 60 * 1000;
-  public timerOn           = false;
   public intervals         = getFullIntervalList(intervals);
   public activeInterval    = this.intervals[0];
 
@@ -50,6 +52,15 @@ export class AppComponent implements OnInit {
     this.intervalRemaining.percent = (mil / this.activeInterval.length) * 100;
   }
 
+  public get timerOn() {
+    return this._timerOn;
+  }
+
+  public set timerOn(v: boolean) {
+    this._timerOn = v;
+    nosleep[v ? 'enable' : 'disable']();
+  }
+
 
   /////////////////////////////////////////////////////////]
   // PRIVATE PROPERTIES -----------------------------------]
@@ -57,12 +68,17 @@ export class AppComponent implements OnInit {
   private _totalRemaining: number;
   private _intervalTimer = this._createIntervalTimer();
   private _intervalRemaining: number;
+  private _timerOn = false;
 
 
   /////////////////////////////////////////////////////////]
   // PUBLIC METHODS ---------------------------------------]
   // PUBLIC METHOD ----------------------------------------]
   public startTimer() {
+    if (this.totalTime === this.totalTimeRemaining) {
+      playExplosionSound();
+    }
+
     this._totalTimer.start();
     this._intervalTimer.start();
     this.timerOn = true;
@@ -111,6 +127,7 @@ export class AppComponent implements OnInit {
       this.totalTimeRemaining = mil;
     }).onEnd(() => {
       this.timerOn = false;
+      playAlarmSound(3);
     });
   }
 
@@ -129,7 +146,7 @@ export class AppComponent implements OnInit {
       this.activeInterval = this.intervals[0];
       this._intervalTimer = this._createIntervalTimer();
       this._intervalTimer.start();
-      playSound();
+      playAlarmSound(3);
     });
   }
 
@@ -150,6 +167,7 @@ export class AppComponent implements OnInit {
 ///////////////////////////////////////////////////////////]
 const intervals = [{
   message: 'Warm Up & Stretch 🏃🏻',
+  // length: .25 * 60 * 1000,
   length: 2.5 * 60 * 1000,
 }, {
   message: 'Push to 70% of Your Max 💪🏻',
@@ -271,16 +289,29 @@ function padStart(str: string, targetLength: number, padString: string) {
 
 
 // PURE FUNCTION ------------------------------------------]
-function playSound() {
-  const beeps = 3;
-  const audio = new Audio('assets/stopwatch-alarm.mp3');
+function playExplosionSound() {
+  playSound('assets/explosion.mp3').volume = 0.25;
+}
 
-  audio.play();
+
+// PURE FUNCTION ------------------------------------------]
+function playAlarmSound(beeps = 3) {
+  const audio = playSound('assets/stopwatch-alarm.mp3');
 
   setTimeout(
     () => audio.pause(),
-    beeps * 1000,
+    beeps * 900,
   );
+}
+
+
+// PURE FUNCTION ------------------------------------------]
+function playSound(src: string) {
+  const audio = new Audio(src);
+
+  audio.play();
+
+  return audio;
 }
 
 
